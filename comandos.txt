@@ -1,0 +1,139 @@
+# COMANDOS MONGODB + DOCKER
+
+## 1. DOCKER
+
+# Cria e inicia um container MongoDB
+
+docker run -d --name mongo-escola -p 27017:27017 mongo
+
+# Lista os containers em execução
+
+docker ps
+
+# Acessa o terminal do MongoDB (mongosh)
+
+docker exec -it mongo-escola mongosh
+
+---
+
+## 2. BANCO DE DADOS
+
+# Cria ou seleciona o banco "escola"
+
+use escola
+
+# Cria a collection "alunos"
+
+db.createCollection("alunos")
+
+---
+
+## 3. INSERÇÃO DE DADOS
+
+# Insere vários alunos na collection
+
+db.alunos.insertMany([
+{
+nome: "Rodrigo Pereira",
+idade: 27,
+curso: "SI",
+notas: [10, 2, 6],
+endereco: { cidade: "Maricá", estado: "RJ" }
+},
+{
+nome: "Ramona Santos",
+idade: 19,
+curso: "ADS",
+notas: [5, 4, 7],
+endereco: { cidade: "Niterói", estado: "RJ" }
+},
+{
+nome: "Tiffany Ferreira",
+idade: 22,
+curso: "SI",
+notas: [3, 6, 9],
+endereco: { cidade: "Rio de Janeiro", estado: "RJ" }
+},
+{
+nome: "Suellen Souza",
+idade: 25,
+curso: "ADS",
+notas: [8, 10, 7],
+endereco: { cidade: "São Gonçalo", estado: "RJ" }
+},
+{
+nome: "Lineu Fernandes",
+idade: 32,
+curso: "ADS",
+notas: [3, 1, 5],
+endereco: { cidade: "Maricá", estado: "RJ" }
+}
+])
+
+---
+
+## 4. CONSULTAS
+
+# Retorna todos os alunos
+
+db.alunos.find()
+
+# Retorna alunos do curso ADS
+
+db.alunos.find({ curso: "ADS" })
+
+# Retorna alunos com idade maior que 21
+
+db.alunos.find({ idade: { $gt: 21 } })
+
+---
+
+## 5. ATUALIZAÇÕES
+
+# Atualiza a idade de um aluno
+
+db.alunos.updateOne(
+{ nome: "Rodrigo Pereira" },
+{ $set: { idade: 24 } }
+)
+
+# Adiciona uma nova nota ao array de notas
+
+db.alunos.updateOne(
+{ nome: "Suellen Souza" },
+{ $push: { notas: 10 } }
+)
+
+---
+
+## 6. REMOÇÃO
+
+# Remove um aluno da collection
+
+db.alunos.deleteOne({ nome: "Ramona Santos" })
+
+---
+
+## 7. AGGREGATIONS
+
+# Calcula a média das notas por aluno
+
+db.alunos.aggregate([
+{
+$project: {
+nome: 1,
+media: { $avg: "$notas" }
+}
+}
+])
+
+# Conta a quantidade de alunos por curso
+
+db.alunos.aggregate([
+{
+$group: {
+_id: "$curso",
+quantidade: { $sum: 1 }
+}
+}
+])
