@@ -207,3 +207,7 @@ db.alunos.aggregate([
 <img width="786" height="109" alt="Image" src="https://github.com/user-attachments/assets/41c24dd1-d268-4dbc-93b7-11330eb4e7c6" />
 
 ---
+
+## Observação sobre os prints
+
+Os prints dos resultados foram adicionados na pasta "P1_Prints diretamente neste README e também estão disponíveis nos *Issues* do repositório de forma decrescente.
